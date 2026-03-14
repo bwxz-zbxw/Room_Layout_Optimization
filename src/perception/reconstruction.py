@@ -1,5 +1,14 @@
-import init_env
+import sys
 import os
+
+# 将项目根目录添加到 python 路径
+# 确保可以 import init_env
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(current_dir))
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
+import init_env  # 自动处理依赖路径
 import torch
 import glob
 import argparse
