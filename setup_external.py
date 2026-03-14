@@ -30,7 +30,8 @@ def setup_external_tools():
         repo_path = os.path.join(external_dir, name)
         if not os.path.exists(repo_path):
             print(f"🚀 正在克隆 {name} ({url})...")
-            if run_cmd(f"git clone {url} {repo_path}"):
+            # 使用 --recursive 确保下载子模块 (如 dust3r 需要 croco)
+            if run_cmd(f"git clone --recursive {url} {repo_path}"):
                 print(f"✅ {name} 克隆成功")
                 
                 # 特殊处理: SAM 2 需要安装
@@ -43,7 +44,9 @@ def setup_external_tools():
             else:
                 print(f"❌ {name} 克隆失败")
         else:
-            print(f"✅ {name} 已存在，跳过克隆")
+            print(f"✅ {name} 已存在，正在检查子模块...")
+            # 即使仓库已存在，也要确保子模块被初始化 (修复 dust3r 缺少 croco 的问题)
+            run_cmd("git submodule update --init --recursive", cwd=repo_path)
 
     print("\n🎉 外部模型库设置完成！")
     print("请手动下载模型权重并在 Notebook 中进行测试。")
