@@ -21,12 +21,31 @@ from dust3r.cloud_opt import global_aligner, GlobalAlignerMode
 def download_weights(model_dir="checkpoints"):
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)
+    pass
+    # 暂时禁用自动下载，改为手动指导
+    # weight_path = os.path.join(model_dir, "DUSt3R_ViTLarge_BaseDecoder_512_dpt.pth")
+    # if not os.path.exists(weight_path):
+    #     print(f"⏳ Downloading model weights to {weight_path}...")
+    #     os.system(f"wget https://download.europe.naverlabs.com/ComputerVision/DUSt3R/DUSt3R_ViTLarge_BaseDecoder_512_dpt.pth -O {weight_path}")
+    #     print("✅ Download complete.")
+    # return weight_path
+    
+    # 强制在魔搭环境寻找已下载的权重
+    # 魔搭环境中，通常建议用户手动下载或者使用 modelscope 的 hub
+    # 这里我们假设用户已经手动下载好了
+    
     weight_path = os.path.join(model_dir, "DUSt3R_ViTLarge_BaseDecoder_512_dpt.pth")
     if not os.path.exists(weight_path):
-        print(f"⏳ Downloading model weights to {weight_path}...")
-        # 使用 wget 下载 (仅限 Linux 环境，如魔搭)
-        os.system(f"wget https://download.europe.naverlabs.com/ComputerVision/DUSt3R/DUSt3R_ViTLarge_BaseDecoder_512_dpt.pth -O {weight_path}")
-        print("✅ Download complete.")
+        # 尝试备用下载源 (HuggingFace 镜像)
+        print("⚠️ 官方源太慢，正在尝试从 Hugging Face 镜像下载...")
+        hf_url = "https://huggingface.co/naver/DUSt3R_ViTLarge_BaseDecoder_512_dpt/resolve/main/DUSt3R_ViTLarge_BaseDecoder_512_dpt.pth"
+        # 使用 HF 镜像通常快得多
+        cmd = f"wget {hf_url} -O {weight_path}"
+        os.system(cmd)
+        
+        if not os.path.exists(weight_path) or os.path.getsize(weight_path) < 1000:
+             raise FileNotFoundError(f"❌ 下载失败！请尝试手动下载该文件并上传到 {weight_path}")
+
     return weight_path
 
 def run_reconstruction(input_dir, output_file, num_images=5, device='cuda'):
