@@ -33,10 +33,32 @@
   - `advisor.py`: 约束结果转优化建议
 - `src/utils/`: 工具类
   - `visualizer.py`: 结果可视化
+- `site-packages/`: **(自动生成)** 本地依赖库目录，用于魔搭持久化
+- `init_env.py`: **(关键)** 环境初始化脚本，在 Notebook 开头导入
+- `install_deps.py`: **(关键)** 依赖安装脚本，用于安装到 site-packages
 
-## 3. 开发计划 (Roadmap)
+## 3. 魔搭(ModelScope)环境配置指南
+
+由于魔搭的系统环境重启后会重置，我们需要将依赖安装到项目目录下的 `site-packages` 文件夹中。
+
+### 步骤 1：安装依赖 (首次运行或依赖变更时)
+在魔搭终端中运行：
+```bash
+python install_deps.py
+```
+这不仅会安装 `requirements.txt` 中的依赖，还会自动处理系统路径。
+
+### 步骤 2：在 Notebook 中使用
+在你的 `.ipynb` 文件的**第一个代码块**中，务必加入以下代码：
+```python
+import init_env  # 自动加载 site-packages 到 sys.path
+import sys
+print(sys.path)  # 验证 site-packages 是否在最前
+```
+
+## 4. 开发计划 (Roadmap)
 - [ ] **Phase 1: 基础设施**
-  - [ ] 配置 ModelScope 环境
+  - [x] 配置 ModelScope 环境依赖持久化
   - [ ] 跑通 Dust3R 和 SAM 2 的 Demo
 - [ ] **Phase 2: 感知层 (最难点)**
   - [ ] 实现视频抽帧策略 (每隔N帧或基于运动模糊筛选)
