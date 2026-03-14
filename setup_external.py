@@ -48,6 +48,13 @@ def setup_external_tools():
             # 即使仓库已存在，也要确保子模块被初始化 (修复 dust3r 缺少 croco 的问题)
             run_cmd("git submodule update --init --recursive", cwd=repo_path)
 
+    # 3. 安装 Dust3R 的额外依赖 (roma)
+    print("⚙️ 安装 Dust3R 额外依赖 (roma)...")
+    site_packages = os.path.join(project_root, 'site-packages')
+    # 使用 --no-deps 防止它顺带安装一堆 incompatible 的 pytorch
+    if run_cmd(f"{sys.executable} -m pip install --target {site_packages} roma"):
+        print("✅ roma 安装成功")
+        
     print("\n🎉 外部模型库设置完成！")
     print("请手动下载模型权重并在 Notebook 中进行测试。")
 

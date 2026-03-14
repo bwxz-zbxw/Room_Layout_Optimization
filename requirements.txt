@@ -15,6 +15,7 @@ tqdm
 open3d>=0.17.0
 numpy
 scipy
+roma  # Dust3R 依赖的旋转优化库
 
 # 大模型与推理 (LLM)
 modelscope  # 阿里云魔搭SDK
