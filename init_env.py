@@ -30,3 +30,25 @@ if os.path.exists(src_dir):
     if src_dir not in sys.path:
         sys.path.append(src_dir)
         print(f"✅ [init_env] 已加载源码目录: {src_dir}")
+
+# 3. 加载第三方模型库 (外部代码)
+# Dust3R 和 SAM 2 通常作为源码克隆在 external/ 目录下
+external_dir = os.path.join(project_root, 'external')
+if os.path.exists(external_dir):
+    # 这里添加 external 目录本身，还是具体子目录，取决于库的结构
+    # 假设结构是 external/dust3r 和 external/sam2
+    dust3r_path = os.path.join(external_dir, 'dust3r')
+    sam2_path = os.path.join(external_dir, 'sam2')
+    gca_path = os.path.join(external_dir, 'gca')
+    
+    if os.path.exists(dust3r_path) and dust3r_path not in sys.path:
+        sys.path.append(dust3r_path)
+        print(f"✅ [init_env] 已加载 Dust3R 路径: {dust3r_path}")
+        
+    if os.path.exists(sam2_path) and sam2_path not in sys.path:
+        sys.path.append(sam2_path)
+        print(f"✅ [init_env] 已加载 SAM 2 路径: {sam2_path}")
+
+    if os.path.exists(gca_path) and gca_path not in sys.path:
+        sys.path.append(gca_path)
+        print(f"✅ [init_env] 已加载 GCA 路径: {gca_path}")
