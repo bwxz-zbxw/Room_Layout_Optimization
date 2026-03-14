@@ -1,0 +1,27 @@
+# 核心框架
+torch>=2.0.0
+torchvision
+torchaudio
+
+# 视觉感知 (Perception)
+# 注意：Dust3R 和 SAM 2 通常需要源码安装，这里列出其依赖
+opencv-python
+pillow
+matplotlib
+scikit-learn
+tqdm
+
+# 三维几何 (Geometry)
+open3d>=0.17.0
+numpy
+scipy
+
+# 大模型与推理 (LLM)
+modelscope  # 阿里云魔搭SDK
+transformers
+accelerate
+sentencepiece
+
+# 工具
+gradio  # 简单的WebUI演示
+moviepy # 视频处理
